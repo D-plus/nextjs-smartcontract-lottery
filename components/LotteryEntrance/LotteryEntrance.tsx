@@ -18,6 +18,7 @@ export function LotteryEntrance() {
 	const chainId = parseInt(chainIdHex!);
 	// @ts-ignore
 	const contractAddress = contractAddresses[chainId]?.[0];
+	let isSubscribedToContractWinnerPickedEvent = false;
 
 	const {
 		runContractFunction: enterRaffle,
@@ -91,7 +92,7 @@ export function LotteryEntrance() {
 	}, [isWeb3Enabled]);
 
 	const subscribeToContractsEvents = async () => {
-		if (window?.ethereum && contractAddress) {
+		if (window?.ethereum && contractAddress && !isSubscribedToContractWinnerPickedEvent) {
 			const provider = await new ethers.providers.Web3Provider(window?.ethereum);
 			const contract = await new ethers.Contract(
 				contractAddress,
@@ -113,6 +114,7 @@ export function LotteryEntrance() {
 					});
 				}
 			});
+			isSubscribedToContractWinnerPickedEvent = true;
 		}
 	};
 
