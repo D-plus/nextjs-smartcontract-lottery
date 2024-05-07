@@ -14,11 +14,12 @@ export function LotteryEntrance() {
 	const [entranceFee, setEntranceFee] = useState<string>("0");
 	const [amountOfPlayers, setAmountOfPlayers] = useState<string>("0");
 	const [recentWinner, setRecentWinner] = useState<string>();
+	const [isSubscribedToContractWinnerPickedEvent, setSubscribedToContractWinnerPickedEvent] =
+		useState<boolean>(false);
 
 	const chainId = parseInt(chainIdHex!);
 	// @ts-ignore
 	const contractAddress = contractAddresses[chainId]?.[0];
-	let isSubscribedToContractWinnerPickedEvent = false;
 
 	const {
 		runContractFunction: enterRaffle,
@@ -59,10 +60,10 @@ export function LotteryEntrance() {
 
 	const displayContractState = async () => {
 		const fee = (await getEntranceFee()) as string;
-		const amountOfPlayersResult = ((await getNumberOfPlayers()) as string).toString();
+		const amountOfPlayersResult = ((await getNumberOfPlayers()) as string)?.toString();
 		const recentWinnerResult = (await getRecentWinner()) as string;
 
-		setEntranceFee(fee);
+		setEntranceFee(fee || "0");
 		setAmountOfPlayers(amountOfPlayersResult);
 		setRecentWinner(recentWinnerResult);
 	};
@@ -114,7 +115,7 @@ export function LotteryEntrance() {
 					});
 				}
 			});
-			isSubscribedToContractWinnerPickedEvent = true;
+			setSubscribedToContractWinnerPickedEvent(true);
 		}
 	};
 
