@@ -8,9 +8,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "engines": {
-    "node": "v20.10.0"
-  },
   "dependencies": {
     "@metamask/providers": "^16.1.0",
     "@walletconnect/ethereum-provider": "^2.12.2",
